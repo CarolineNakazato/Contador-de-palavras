@@ -50,7 +50,7 @@ void main(int argc, char *argv[])
 			}
 		}
 		ordenaLista(&head);
-		ordemAlfabetica(&head);
+		//ordemAlfabetica(&head);
 		imprimeLista(head, qtd);
 	}
 }
