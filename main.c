@@ -1,62 +1,56 @@
+/*Integrante 1 - Nome: Caroline Nakazato RA: 17164260
+ Integrante 2 - Nome: Stephanie Leong RA: 15003270
+ Resultados obtidos: ____________________________________________________ 
+ Projeto básico: 100 % concluído - Obs: ___________________________________
+ ( ) Opcional 1 - Obs: ____________________________________________________
+ ( ) Opcional 2 - Obs: ____________________________________________________
+ ( ) Opcional 3 - Obs: ____________________________________________________
+ ( ) Opcional 4 - Obs: ____________________________________________________
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "item.h"
 #include "ST.h"
-#include <sys/time.h>
-
-int main(int argc, char *argv[])
+void main(int argc, char *argv[])
 {
-	int nPalavra = 0, tamN = 0, i = 2, j = 0, k = 0, nivel = 1, numero = 0, aux = 0;
-	struct timeval  inicio;
-	
-	char num[50], palavra[50], ch, op, narquivo[50],tipo , tipo2;	
+	char opcao, letra, qtdPalavra[50], palavra[50];	
+	int i = 2, j = 0, w = 0, qtd = 0;
+	no *arvore;
 	lista *head;
-	no *ArvItem;
-	FILE *Arquivo;
-	
-	op = argv[1][1];//pega a operacao requesitada pelo usuario
-	iniciaArvore(&ArvItem);
+	opcao = argv[1][1];
+	iniciaArvore(&arvore);
 	iniciaLista(&head);
-
-	if(op == 'n' && argc == 2)//printa as n palavras mais frequentes
-	{
-		while(argv[1][i] != '\0')//pega o numero de palavra que irao se repetir
-		{
-			num[j] = argv[1][i];
+	
+	if((opcao == 'n') && (argc == 2)){
+		while(argv[1][i] != '\0'){
+			qtdPalavra[j] = argv[1][i];
 			i++;
 			j++;
 		}
-		num[j] = '\0';
-		tamN = atoi(num);
-
-		scanf("%c", &ch);
-		while(!feof(stdin))//vai retirando os charcters do buffer e formando as palavras
-		{
-			if((ch > 64 && ch <91) || (ch >96 && ch < 123))
-			{
-					palavra[k] = ch;
-					k++;
-			}
-			else
-			{
-				palavra[k] = '\0';
-				k = 0;
-				if(strlen(palavra) > 0)// evita de entrar \0 na arvore e na lista
-				{
-					alocaArvore(&ArvItem, palavra);//insere a palvra na arvore
-					alocaLista(&head, palavra);//insere a palavra na lista
+		qtdPalavra[j] = '\0';
+		qtd = atoi(qtdPalavra);
+		scanf("%c", &letra);
+		while(!feof(stdin)){
+			if(((letra > 96) && (letra < 123))||((letra > 64) && (letra < 91))){
+					palavra[w] = letra;
+					w++;
+			}else{
+				palavra[w] = '\0';
+				w = 0;
+				if(strlen(palavra) > 0){
+					alocaArvore(&arvore, palavra);
+					alocaLista(&head, palavra);
 				}
 			}
-			scanf("%c", &ch);
-			if(ch == EOF)//pega a ultima palavra do buffer
-			{
-				palavra[k] = '\0';
-				k = 0;
+			scanf("%c", &letra);
+			if(letra == EOF){
+				palavra[w] = '\0';
+				w = 0;
 			}
 		}
-		ordenaLista(&head);//ordena a lista 
-		imprimeLista(head, tamN);//printa as n palavras mais frequentes
+		ordenaLista(&head);
+		ordemAlfabetica(&head);
+		imprimeLista(head, qtd);
 	}
-	return 0;
 }

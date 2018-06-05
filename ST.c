@@ -8,27 +8,22 @@ void iniciaArvore(no **raiz){
 }
 
 void alocaArvore(no **raiz, char p[]){
-	if(*raiz){
+	if((*raiz)==NULL){
 		(*raiz) = (no *)malloc(sizeof(no));
-		if(!novo){
-			printf("Sem memoria disponivel!\n");
-			break;
-		}else{
-			(*raiz)->info = inserirItem(p);
-			(*raiz)->esq = NULL;
-			(*raiz)->dir = NULL;
-		}else{
-			switch(comparar((*raiz)->info, p){
-				case 0:
-					soma(&(*raiz)->info);
-					break;
-				case 1:
-					alocaArvore(&(*raiz)->esq, p);
-					break;
-				case 2:
-					alocaArvore(&(*raiz)->dir, p);
-					break;
-			}
+		(*raiz)->info = inserirItem(p);
+		(*raiz)->esq = NULL;
+		(*raiz)->dir = NULL;
+	}else{
+		switch(comparar((*raiz)->info, p)){
+			case 0:
+				soma(&(*raiz)->info);
+				break;
+			case 1:
+				alocaArvore(&(*raiz)->esq, p);
+				break;
+			case -1:
+				alocaArvore(&(*raiz)->dir, p);
+				break;
 		}
 	}
 }
@@ -37,32 +32,25 @@ void iniciaLista(lista **head){
 	(*head) = NULL;
 }
 
-void alocaLista(lista **head, char p[]){
-	int count = 0;
-	lista *oldHead = (*head);
-	lista (*novo) = (lista*)malloc(sizeof(lista));
-	if(!novo){
-		printf("Sem memoria disponivel!\n");
-		break;
-	}else{
-		novo->info = inserirItem(p);
-		novo->prox = NULL;
-		if((*head) == NULL){
-			(*head) = novo;
-		}else{
-			while(oldHead->prox){
-				if(comparar(novo->info, p) == 0){
-					soma(oldHead->info);//.valor = oldHead->info.valor + 1;
-					count = 1;
-					break;
-				}
-				oldHead = oldHead->prox;
-			}
-			if(count == 0){
-				(*head)->prox = novo;
-			}
+int existeLista(lista *head, char p[]){
+	while(head!=NULL){ 
+		if(comparar(head->info, p) == 0){
+			soma(&head->info);
+			return 1;
 		}
+		head = head->prox;	
 	}
+	return 0;
+}
+
+void alocaLista(lista **head, char p[]){
+	if(existeLista((*head), p) == 0){
+		lista (*novo) = (lista*)malloc(sizeof(lista));
+		novo->info = inserirItem(p);
+		novo->prox = (*head);
+		(*head) = novo;
+	}
+	
 }
 
 int tamanhoLista(lista *head){
@@ -81,23 +69,29 @@ void ordenaLista(lista **head){
    char chave[50];
    lista *atual, *oldHead;
 	
-   tam = tamanhoLista();
+   tam = tamanhoLista(*head);
    k = tam;
-	
    for ( i = 0; i < (tam - 1); i++, k-- ){
       atual = *head;
       oldHead = (*head)->prox;
 		
       for ( j = 1; j < k; j++ ){   
+         if ( atual->info->valor < oldHead->info->valor ){
+            valor = atual->info->valor;
+            atual->info->valor = oldHead->info->valor;
+            oldHead->info->valor = valor;
 
-         if ( atual->info.valor > oldHead->info.valor ){
-            valor = atual->info.valor;
-            atual->info.valor = oldHead->info.valor;
-            oldHead->info.valor = valor;
-
-            strcpy(chave, atual->info.chave);
-            strcpy(atual->info.chave, oldHead->info.chave);
-            strcpy(oldHead->info.chave, chave);
+            strcpy(chave, atual->info->chave);
+            strcpy(atual->info->chave, oldHead->info->chave);
+            strcpy(oldHead->info->chave, chave);
+         } else{
+         	if ( atual->info->valor == oldHead->info->valor ){
+         		if(comparar(atual->info, oldHead->info->chave) == -1){		
+         			strcpy(chave, atual->info->chave);
+	         		strcpy(atual->info->chave, oldHead->info->chave);
+	         		strcpy(oldHead->info->chave, chave);
+	         	}
+         	}
          }			
          atual = atual->prox;
          oldHead = oldHead->prox;
@@ -105,10 +99,41 @@ void ordenaLista(lista **head){
    }   
 }
 
+void ordemAlfabetica(lista **head){
+   int i, j, k, tam, valor;
+   char chave[50];
+   lista *atual, *oldHead;
+	
+   tam = tamanhoLista(*head);
+   k = tam;
+   for ( i = 0; i < (tam - 1); i++, k-- ){
+      atual = *head;
+      oldHead = (*head)->prox;
+		
+      for ( j = 1; j < k; j++ ){   
+         	if ( atual->info->valor == oldHead->info->valor ){
+         		if(comparar(atual->info, oldHead->info->chave) == -1){
+         		          valor = atual->info->valor;
+               		atual->info->valor = oldHead->info->valor;
+            		oldHead->info->valor = valor;
+            		
+         			strcpy(chave, atual->info->chave);
+	         		strcpy(atual->info->chave, oldHead->info->chave);
+	         		strcpy(oldHead->info->chave, chave);
+	         	}
+         	}			
+         atual = atual->prox;
+         oldHead = oldHead->prox;
+      }
+   }   
+}
+
 void imprimeLista(lista *head, int n){
-	int i;
-	for(i = n; ((i>=0)&&(head)); i--){
-		printf("%d %s\n", head->info.valor, head->info.chave);
-		head = head->prox;
+//printf("n = %d\n", n);
+	int i, tamanho = tamanhoLista(head);
+//	printf("tamanho = %d\n", tamanho);
+	for(i = 0; ((i<n)&&(head!=NULL)); i++){
+	imprime(head->info);
+	head = head->prox;
 	}
 }

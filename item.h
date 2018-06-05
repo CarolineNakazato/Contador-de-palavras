@@ -10,5 +10,6 @@ struct tItem{
 
 item *inserirItem(char p[]);
 void soma(item **Item);
+void imprime(item *Item);
 int comparar(item *Item, char p[]);
 #endif

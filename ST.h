@@ -18,8 +18,10 @@ void iniciaArvore(no **raiz);
 void alocaArvore(no **raiz, char p[]);
 
 void iniciaLista(lista **head);
+int existeLista(lista *head, char p[]);
 void alocaLista(lista **head, char p[]);
 int tamanhoLista(lista *head);
 void ordenaLista(lista **head);
+void ordemAlfabetica(lista **head);
 void imprimeLista(lista *head, int n);
 #endif
