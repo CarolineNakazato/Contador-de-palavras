@@ -2,7 +2,7 @@
  Integrante 2 - Nome: Stephanie Leong RA: 15003270
  Resultados obtidos: ____________________________________________________ 
  Projeto básico: 100 % concluído - Obs: ___________________________________
- ( ) Opcional 1 - Obs: ____________________________________________________
+ (X) Opcional 1 - Obs: ____________________________________________________
  ( ) Opcional 2 - Obs: ____________________________________________________
  ( ) Opcional 3 - Obs: ____________________________________________________
  ( ) Opcional 4 - Obs: ____________________________________________________
@@ -10,19 +10,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include <time.h>
 #include "item.h"
 #include "ST.h"
 void main(int argc, char *argv[])
 {
-	char opcao, letra, qtdPalavra[50], palavra[50];	
-	int i = 2, j = 0, w = 0, qtd = 0;
+	char opcao, opcao2,  letra, qtdPalavra[50], palavra[50], word[50];	
+	int i = 2, j = 0,k=2,m=0, w = 0, qtd = 0;
 	no *arvore;
 	lista *head;
 	opcao = argv[1][1];
+        if(argc>2){
+            opcao2 = argv[2][1]; 
+        } 
+        while(argv[2][k] != '\0'){
+			word[m] = argv[2][k];
+			k++;
+                        m++;
+                    
+		}
+        printf("\n opcao = %c  e  opcao2 = %c  a  WORD_palavra = %s \n", opcao, opcao2, word);
 	iniciaArvore(&arvore);
 	iniciaLista(&head);
-	
-	if((opcao == 'n') && (argc == 2)){
+
+	if(opcao2 == 'r'){
+            arquivo(head, opcao2);
+            exit(0);
+            
+        }
+
+	if(opcao == 'n'){
 		while(argv[1][i] != '\0'){
 			qtdPalavra[j] = argv[1][i];
 			i++;
@@ -51,6 +69,18 @@ void main(int argc, char *argv[])
 		}
 		ordenaLista(&head);
 		//ordemAlfabetica(&head);
-		imprimeLista(head, qtd);
+                if(opcao2 == 'w'){
+                    imprimeLista(head, qtd);
+                }
 	}
+
+	if(opcao2 == 'w'){
+            arquivo(head, opcao2);
+        }
+        if(opcao2 == 's'){
+
+            procuraPalavra(arvore, word);
+
+        }
+        
 }
