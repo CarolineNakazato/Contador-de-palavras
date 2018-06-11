@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <time.h>
 #include "item.h"
 #include "ST.h"
 void iniciaArvore(no **raiz){
@@ -139,83 +137,3 @@ void imprimeLista(lista *head, int n){
 	head = head->prox;
 	}
 }
-
-void arquivo(lista *l, char op){
-  FILE *arquivo;
-  item *Item;
-  char c;
-  
-  if(op == 'w'){
-    arquivo = fopen("stfile.txt","w");
-    
-    while(l != NULL){
-        Item = l->info;
-    fprintf(arquivo, "%d  %s\n", Item->valor,Item->chave);
-    l = l->prox;
-
-    }
-    
-    fclose(arquivo);
-  }
-  
-  if(op == 'r'){
-    arquivo = fopen("stfile.txt","r");
-    
-   while( ( c = fgetc(arquivo) ) != EOF ){
-      printf("%c",c);
-     
-  }
-   fclose(arquivo);
-  }
-}
-
-int altura(no *t, no *node, int a){
-  if(t == NULL){
-    return 0;
-  }
-  if(t == node) return a;
-
-  int level = altura(t->esq,node,a+1);
-
-  if(level!=0) return level;
-
-  return altura(t->dir,node,a+1);
-}
-
-
-no *busca_word(no *tre, char word[]){
-  if(tre == NULL){
-    return NULL;
-  }
-  if(strcmp(word,tre->info->chave) == 0){
-    return tre;
-  }
-  if(strcmp(word,tre->info->chave) < 0){
-    busca_word(tre->esq,word);    
-  }
-  else{
-     busca_word(tre->dir,word);    
-  }
-}
-
-void procuraPalavra(no *arv, char palavra[]){
-   int alt=0;
-    no *busca = NULL;
-    clock_t start,end;
-    
-    start = clock();
-   busca = busca_word(arv, palavra);
-   end = clock();
-   double demora = ((double) (end - start))/CLOCKS_PER_SEC;
-    
-    alt = altura(arv,busca,1);
-    
-    if(busca == NULL){
-      printf("PALAVRA NAO ENCONTRADA!\n\n");
-    }
-    else{
-      printf("Palavra Encontrada: %s   Frequencia: %d    Altura: %d    Tempo: %f \n\n",busca->info->chave,busca->info->valor, alt, demora);
-    }
-}
-
-

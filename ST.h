@@ -24,9 +24,4 @@ int tamanhoLista(lista *head);
 void ordenaLista(lista **head);
 void ordemAlfabetica(lista **head);
 void imprimeLista(lista *head, int n);
-void arquivo(lista *l, char op);
-
-void procuraPalavra(no *arv, char palavra[]);
-no *busca_word(no *tre, char word[]);
-int altura(no *t, no *node, int a);
 #endif

@@ -21,4 +21,4 @@ clean:
 	rm -f prog main.o ST.o item.o
 
 run: prog
-	./prog
+	./prog 
